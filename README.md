@@ -39,7 +39,7 @@ $ cd my/git/repos
 $ push_to dropbox
 ```
 
-### Walktrought
+### Walkthrough
 
 The basic idea that script looking for executables on `to` directory and then
 execute it if it filename passed as script param(without extension). For
