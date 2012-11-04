@@ -43,15 +43,15 @@ function add_remote() {
     fi
     for remote in `$GIT remote`; do
         if [[ $remote == $1 ]]; then
-            local dropbox=`$GIT remotes | grep dropbox | cut -d ' ' -f1 | uniq`
-            echo "Remote $(echo $dropbox | cut -d ' ' -f1) already exists at '`tilde $(echo $dropbox | cut -d ' ' -f2)`'"
+            local name=`$GIT remotes | grep $1 | cut -d ' ' -f1 | uniq`
+            echo "Remote $(echo $name | cut -d ' ' -f1) already exists at '`tilde $(echo $name | cut -d ' ' -f2)`'"
             read -n 1 -p "Do you want to overwrite it? (y/[N]) "
             echo
             if [[ $REPLY =~ ^[yY]$ ]]; then
                 $GIT remote rm $1
             else
                 echo "You can add remote repository later:"
-                pretty_print "$GIT remote add dropbox $(tilde $2)"
+                pretty_print "$GIT remote add $1 $(tilde $2)"
                 noremote=
             fi
             break
