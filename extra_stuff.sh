@@ -26,6 +26,11 @@ function tilde() {
 }
 
 # do some checks: on git repos?
+# generate alphanumeric random string
+function randstr() {
+    cat /dev/urandom | tr -cd "[:alnum:]" | head -c ${1:-32}
+}
+
 function prepare() {
     if [[ ! -d ".git" ]]; then
         echo "Usage error: current dir is not git repos"
