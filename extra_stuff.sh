@@ -17,7 +17,12 @@ function tilde() {
         exit $E_BAD_PARAMS
     fi
     local HOME=`cd ~; pwd`
-    echo "~${1#$HOME}"
+    # process only absolute path
+    if [[ "${1:0:1}" == '/' ]]; then
+        echo "~${1#$HOME}"
+    else
+        echo "$1"
+    fi
 }
 
 # do some checks: on git repos?
