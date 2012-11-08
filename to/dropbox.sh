@@ -31,12 +31,14 @@ function dropbox() {
     mkdir -p "$HOME/$DROPBOX/$TO" && cd "$HOME/$DROPBOX/$TO"
 
     # clone to bare repos
-    $GIT clone --bare "$ORIGINAL"
+    git clone --bare "$ORIGINAL"
     echo "New bare repository created at '$(tilde ${TO_CLONE#$HOME})'"
 
     # then add as remote to original repos
     cd "$ORIGINAL" && add_remote dropbox "$TO_CLONE"
 }
+
+require git
 
 # actually do it
 dropbox
