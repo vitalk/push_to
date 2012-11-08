@@ -1,7 +1,7 @@
 # push to
 
 Script that push existing git repos to predefined location. For example, to
-create a bare copy of repos on Dropbox folder.
+create a new github repository or a bare copy of repos on Dropbox folder.
 
 ## Usage
 
@@ -30,13 +30,17 @@ function __push_to_completion() {
     return $SUCCESS
 }
 complete -o nospace -F __push_to_completion push_to
+# it is possible to specify your github credentials
+git config --global github.user "your github username"
+git config --global github.token "your github password"
 ```
 
 And usage example:
 
 ```bash
-$ cd my/git/repos
-$ push_to dropbox
+cd my/git/repos
+# after answer on some questions new github repository will be created
+push_to github
 ```
 
 ### Walkthrough
