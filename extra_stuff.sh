@@ -9,6 +9,7 @@ GIT=git
 SUCCESS=0
 E_BAD_PARAMS=1
 E_INVALID_REPOS=2
+E_UNSATISFIED_REQUIREMENT=3
 
 # replace home dir to tilde(~) on path
 function tilde() {
@@ -36,6 +37,17 @@ function prepare() {
         echo "Usage error: current dir is not git repos"
         exit $E_INVALID_REPOS
     fi
+}
+
+# check for require
+function require() {
+    which $1 > /dev/null 2>&1 || (( echo "$0 require '$1'" && exit $E_UNSATISFIED_REQUIREMENT ))
+}
+
+# ask user input or use default answer
+function ask() {
+    read -p "$1 "
+    [[ -z $REPLY ]] && echo "${2:- }" || echo "$REPLY"
 }
 
 # stylized output
