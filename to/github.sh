@@ -20,13 +20,15 @@ function github() {
     repos_name=$( ask "Enter your repository name(${ORIGINAL##*/} by default):" ${ORIGINAL##*/} )
     repos_description=$( ask "Enter your repository description(empty by default):" )
 
-    # check exists that name or not on github
+    # check exists that name or not on github and cache that value
     echo "Checking exists that name or not on your github account. This may take awhile..."
     curl --silent --output $TMP $GITHUB_API_URL/users/$github_username/repos
+    # ask unique repository name
     while grep -e "\"name\": \"$repos_name\"" $TMP > /dev/null; do
         echo "Repository with that name already exists on your github account!"
         repos_name=$( ask "Please, select another name:" )
 
+        # not empty name
         # just for fun
         local i=0
         while [[ -n $repos_name ]]; do
