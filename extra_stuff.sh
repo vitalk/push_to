@@ -58,13 +58,15 @@ function add_remote() {
         echo "Usage: add_remote <name> <url>"
         exit $E_BAD_PARAMS
     fi
+
+    local remote noremote name reply
+
     for remote in `$GIT remote`; do
         if [[ $remote == $1 ]]; then
-            local name=`$GIT remotes | grep $1 | cut -d ' ' -f1 | uniq`
+            name=`$GIT remotes | grep $1 | cut -d ' ' -f1 | uniq`
             echo "Remote $(echo $name | cut -d ' ' -f1) already exists at '`tilde $(echo $name | cut -d ' ' -f2)`'"
-            read -n 1 -p "Do you want to overwrite it? (y/[N]) "
-            echo
-            if [[ $REPLY =~ ^[yY]$ ]]; then
+            reply=$( ask "Do you want to overwrite it? (y/[N])" )
+            if [[ $reply =~ ^[yY] ]]; then
                 $GIT remote rm $1
             else
                 echo "You can add remote repository later:"
