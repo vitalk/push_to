@@ -13,29 +13,29 @@ source "${ABS_PATH}/extra_stuff.sh"
 
 # duplicate existing git repository to dropbox folder
 function dropbox() {
-    ORIGINAL=`pwd`
-    HOME=`cd ~; pwd`
+    local original tail to to_clone
+    original=`pwd`
     # home-relative path to repos
-    TAIL="${ORIGINAL#$HOME/}"
+    tail="${original#$HOME/}"
     # exclude top repos dir
-    TO="${TAIL%/*}"
-    # path to cloned repos
-    TO_CLONE="$HOME/$DROPBOX/$TAIL.git"
+    to="${tail%/*}"
+    # path to new bare repos
+    to_clone="$HOME/$DROPBOX/$tail.git"
 
-    if [[ -d "$TO_CLONE" ]]; then
-        echo "Repository '$(tilde ${TO_CLONE#$HOME})' already exists"
+    if [[ -d "$to_clone" ]]; then
+        echo "Repository '$(tilde $to_clone)' already exists"
         exit $SUCCESS
     fi
 
     # create dir hierarchy on dropbox dir
-    mkdir -p "$HOME/$DROPBOX/$TO" && cd "$HOME/$DROPBOX/$TO"
+    mkdir -p "$HOME/$DROPBOX/$to" && cd "$HOME/$DROPBOX/$to"
 
     # clone to bare repos
-    git clone --bare "$ORIGINAL"
-    echo "New bare repository created at '$(tilde ${TO_CLONE#$HOME})'"
+    git clone --bare "$original"
+    echo "New bare repository created at '$(tilde $to_clone)'"
 
     # then add as remote to original repos
-    cd "$ORIGINAL" && add_remote dropbox "$TO_CLONE"
+    cd "$original" && add_remote dropbox "$to_clone"
 }
 
 require git
