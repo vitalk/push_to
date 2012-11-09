@@ -11,19 +11,14 @@ E_BAD_PARAMS=1
 E_INVALID_REPOS=2
 E_UNSATISFIED_REQUIREMENT=3
 
-# replace home dir to tilde(~) on path
+# replace home dir to tilde(~) on path if possible
 function tilde() {
     if [[ $# -ne 1 ]]; then
         echo "Usage error: provide only one param"
         exit $E_BAD_PARAMS
     fi
-    local HOME=`cd ~; pwd`
-    # process only absolute path
-    if [[ "${1:0:1}" == '/' ]]; then
-        echo "~${1#$HOME}"
-    else
-        echo "$1"
-    fi
+    RELATIVE_PWD=${1/#$HOME/\~}
+    echo -e ${RELATIVE_PWD%/}
 }
 
 # generate alphanumeric random string
