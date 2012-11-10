@@ -10,6 +10,7 @@ E_BAD_PARAMS=1
 E_INVALID_REPOS=2
 E_UNSATISFIED_REQUIREMENT=3
 
+# Usage: tilde <path>
 # replace home dir to tilde(~) on path if possible
 function tilde() {
     if [[ $# -ne 1 ]]; then
@@ -20,11 +21,13 @@ function tilde() {
     echo -e ${RELATIVE_PWD%/}
 }
 
-# generate alphanumeric random string
+# Usage: randstr <length:32>
+# generate alphanumeric random string with the required <length>
 function randstr() {
     cat /dev/urandom | tr -cd "[:alnum:]" | head -c ${1:-32}
 }
 
+# Usage: prepare
 # do some checks: we are on git repos now?
 function prepare() {
     if [[ ! -d .git ]]; then
@@ -33,17 +36,20 @@ function prepare() {
     fi
 }
 
-# check for require
+# Usage: require <command>
+# check exists required <command> or not
 function require() {
     which $1 > /dev/null 2>&1 || { echo "$0 require '$1'"; exit $E_UNSATISFIED_REQUIREMENT; }
 }
 
-# ask user input or use default answer
+# Usage: ask <question> [<answer>]
+# ask <question> to user with default <answer>
 function ask() {
     read -p "$1 "
     [[ -z $REPLY ]] && echo "${2:- }" || echo "$REPLY"
 }
 
+# Usage: pretty_print <text>
 # stylized output
 function pretty_print() {
     echo "# ---------------------------------------------------------------------------- #"
@@ -51,7 +57,8 @@ function pretty_print() {
     echo "# ---------------------------------------------------------------------------- #"
 }
 
-# add new remote to git repos
+# Usage: add_remote <name> <url>
+# add new remote <name> at <url> to current git repos
 function add_remote() {
     require git
 
