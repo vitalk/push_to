@@ -5,7 +5,6 @@
 # Use it for Good not Evil.
 
 
-GIT=git
 SUCCESS=0
 E_BAD_PARAMS=1
 E_INVALID_REPOS=2
@@ -54,6 +53,8 @@ function pretty_print() {
 
 # add new remote to git repos
 function add_remote() {
+    require git
+
     if [[ $# -ne 2 ]]; then
         echo "Usage: add_remote <name> <url>"
         exit $E_BAD_PARAMS
@@ -61,23 +62,23 @@ function add_remote() {
 
     local remote noremote name reply
 
-    for remote in `$GIT remote`; do
+    for remote in `git remote`; do
         if [[ $remote == $1 ]]; then
-            name=`$GIT remotes | grep $1 | cut -d ' ' -f1 | uniq`
+            name=`git remotes | grep $1 | cut -d ' ' -f1 | uniq`
             echo "Remote $(echo $name | cut -d ' ' -f1) already exists at '`tilde $(echo $name | cut -d ' ' -f2)`'"
             reply=$( ask "Do you want to overwrite it? (y/[N])" )
             if [[ $reply =~ ^[yY] ]]; then
-                $GIT remote rm $1
+                git remote rm $1
             else
                 echo "You can add remote repository later:"
-                pretty_print "$GIT remote add $1 $(tilde $2)"
+                pretty_print "git remote add $1 $(tilde $2)"
                 noremote=
             fi
             break
         fi
     done
     if [[ ${noremote=1} ]]; then
-        $GIT remote add $1 "$2"
+        git remote add $1 "$2"
         echo "New remote repository named $1 added"
     fi
 }
