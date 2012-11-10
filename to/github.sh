@@ -11,7 +11,7 @@ ABS_PATH=`dirname "$0"`
 source "${ABS_PATH}/extra_stuff.sh"
 
 ORIGINAL=`pwd`
-TMP="/tmp/push_to.$(randstr 8)"
+TMP="/tmp/push_to.$$"
 
 function github() {
     # ask github credentials or read from config
