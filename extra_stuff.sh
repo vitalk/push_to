@@ -36,7 +36,7 @@ function prepare() {
 
 # check for require
 function require() {
-    which $1 > /dev/null 2>&1 || (( echo "$0 require '$1'" && exit $E_UNSATISFIED_REQUIREMENT ))
+    which $1 > /dev/null 2>&1 || { echo "$0 require '$1'"; exit $E_UNSATISFIED_REQUIREMENT; }
 }
 
 # ask user input or use default answer
