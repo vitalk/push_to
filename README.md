@@ -1,56 +1,36 @@
 # push to
 
-Script that push existing git repos to predefined location. For example, to
-create a new github repository or a bare copy of repos on Dropbox folder.
+Script that push existing git repos to predefined location. For example, it
+allow to create a new github repository remotely or create a bare copy of repos
+on your Dropbox folder.
 
-## Usage
+## Walkthrough
 
-To easy use add some extra stuff to your `.bashrc`(don't forgot to replace
-'path/to/push_to' with actual path):
+The basic idea that script looking for executables on `'to'` directory and then
+execute it if it filename passed as script param. For example, `push_to
+dropbox` executes the `'to/dropbox'` script that actually do all work.
+
+Use `'to/sample'` as example of extension file.
+
+### Usage
+
+Source `'push_to_compl'` somewhere on your `'.bashrc'`. It create an alias and
+shell completion for the script:
 
 ```bash
-# add alias to script
-alias push_to="path/to/push_to.sh"
-# add tab completion for avaliable destinations
-function __push_to_completion() {
-    local cur
-
-    COMPREPLY=()
-    cur=${COMP_WORDS[COMP_CWORD]}
-
-    case "$cur" in
-        -*)
-            COMPREPLY=( $(compgen -W '-h --help' -- $cur) )
-            ;;
-        *)
-            COMPREPLY=( $(compgen -W "$(for f in `ls path/to/push_to/to | grep .sh$`; do echo ${f%.sh}; done)" -- $cur) )
-            ;;
-    esac
-
-    return $SUCCESS
-}
-complete -o nospace -F __push_to_completion push_to
-# it is possible to specify your github credentials
-git config --global github.user "your github username"
-git config --global github.token "your github password"
+# to list avaliable commands
+pust_to [Tab]
+# to list avaliable options
+push_to -[Tab]
 ```
 
-And usage example:
+To create a new github repository run:
 
 ```bash
 cd my/git/repos
-# after answer on some questions new github repository will be created
 push_to github
 ```
 
-### Walkthrough
-
-The basic idea that script looking for executables on `to` directory and then
-execute it if it filename passed as script param(without extension). For
-example, `push_to dropbox` executes the `to/dropbox.sh` script that actually do
-all work.
-
-Use `to/sample.sh` as example of extension file.
 
 ## About
 
