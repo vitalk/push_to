@@ -9,7 +9,7 @@
 DROPBOX=Dropbox
 
 ABS_PATH=`dirname "$0"`
-source "${ABS_PATH}/extra_stuff.sh"
+source "${ABS_PATH}/extra_stuff"
 
 # duplicate existing git repository to dropbox folder
 function dropbox() {

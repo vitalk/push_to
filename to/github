@@ -8,7 +8,7 @@ GITHUB='git@github.com'
 GITHUB_API_URL='https://api.github.com'
 
 ABS_PATH=`dirname "$0"`
-source "${ABS_PATH}/extra_stuff.sh"
+source "${ABS_PATH}/extra_stuff"
 
 ORIGINAL=`pwd`
 TMP="/tmp/push_to.$$"

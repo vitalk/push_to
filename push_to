@@ -6,7 +6,7 @@
 
 
 ABS_PATH=`dirname "$0"`
-source "$ABS_PATH/extra_stuff.sh"
+source "$ABS_PATH/extra_stuff"
 
 # print usage help
 function usage() {
@@ -18,6 +18,15 @@ Copy exsisting git repos to predefined destination.
 HELP
 }
 
+# Usage: load <path>
+# load source from <path>
+function load() {
+    if [[ -e "$1" && -r "$1" ]]; then
+        prepare && source "$1"
+        exit $SUCCESS
+    fi
+}
+
 # main loop
 function loop() {
     while (($#)); do
@@ -27,11 +36,8 @@ function loop() {
                 exit $SUCCESS;
                 ;;
             *)
-                to="$ABS_PATH/to/$1.sh"
-                if [[ -e $to && -r $to ]]; then
-                    prepare && source $to
-                    exit $SUCCESS;
-                fi
+                to="$ABS_PATH/to/$1"
+                load "$to"
                 [ "$1" == "--" ] && shift;
                 if (($#)); then
                     echo "Usage error: unrecognized option" && usage;
