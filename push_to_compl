@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# shell completion for push_to script.
+
+# path to source
+src=$(dirname "$0")
+
+# add alias to script
+alias push_to="$src/push_to"
+
+# add tab completion for available destinations
+function __push_to_completion() {
+    local cur prev opts
+
+    COMPREPLY=()
+    cur=${COMP_WORDS[COMP_CWORD]}
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+    opts=$( push_to --help | grep -P -o "(\s(-\w{1}|--[\w-]*=?)){1,2}" | sort | uniq )
+
+    case "$cur" in
+        -*)
+            COMPREPLY=( $(compgen -W "${opts}" -- $cur) )
+            ;;
+        *)
+            COMPREPLY=( $(compgen -W "$(ls $src/to)" -- $cur) )
+            ;;
+    esac
+}
+complete -o nospace -F __push_to_completion push_to
+complete -o nospace -F __push_to_completion push_to.sh
