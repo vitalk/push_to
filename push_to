@@ -11,7 +11,7 @@ source "$ABS_PATH/extra_stuff"
 # print usage help
 function usage() {
     cat <<HELP
-Usage: $(basename "$0") [-h|--help] dropbox
+Usage: $(basename "$0") [-h|--help] endpoint
 Copy exsisting git repos to predefined destination.
 
   -h, --help            display this help and exit
